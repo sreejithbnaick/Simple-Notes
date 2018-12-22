@@ -1,6 +1,7 @@
 package com.simplemobiletools.notes.pro.databases
 
 import android.content.Context
+import android.util.Log
 import android.widget.EditText
 import androidx.room.Database
 import androidx.room.Room
@@ -15,7 +16,7 @@ import com.simplemobiletools.notes.pro.models.Note
 import com.simplemobiletools.notes.pro.models.Widget
 import java.util.concurrent.Executors
 
-private const val DB_NAME = "notes.db"
+private const val DB_NAME = "notes-secure.db"
 
 @Database(entities = [Note::class, Widget::class], version = 1)
 abstract class NotesDatabase : RoomDatabase() {
@@ -26,6 +27,7 @@ abstract class NotesDatabase : RoomDatabase() {
 
     companion object {
         private var db: NotesDatabase? = null
+        private var tempDB: NotesDatabase? = null
 
         fun getInstance(): NotesDatabase = db as NotesDatabase
 
@@ -38,7 +40,8 @@ abstract class NotesDatabase : RoomDatabase() {
         private fun createInstanceInternal(context: Context, passphraseField: EditText): NotesDatabase {
             synchronized(NotesDatabase::class) {
                 val factory = SafeHelperFactory.fromUser(passphraseField.text)
-                val dbLocal = Room.databaseBuilder(context, NotesDatabase::class.java, DB_NAME)
+
+                return Room.databaseBuilder(context, NotesDatabase::class.java, DB_NAME)
                         .openHelperFactory(factory)
                         .addCallback(object : Callback() {
                             override fun onCreate(db: SupportSQLiteDatabase) {
@@ -47,23 +50,24 @@ abstract class NotesDatabase : RoomDatabase() {
                             }
                         }).build().apply {
                             openHelper.setWriteAheadLoggingEnabled(true)
+                            tempDB = this
+                            if (isDbUnlocked(this)) db = this
                         }
-                if (isDbUnlocked(dbLocal)) db = dbLocal
-                return dbLocal
             }
         }
 
         fun destroyInstance() {
             db = null
+            tempDB = null
         }
 
         private fun insertFirstNote(context: Context) {
-            db?.apply {
-                Executors.newSingleThreadScheduledExecutor().execute {
-                    val generalNote = context.resources.getString(R.string.general_note)
-                    val note = Note(null, generalNote, "", TYPE_TEXT)
+            Executors.newSingleThreadScheduledExecutor().execute {
+                val generalNote = context.resources.getString(R.string.general_note)
+                val note = Note(null, generalNote, "", TYPE_TEXT)
+                tempDB?.apply {
                     NotesDao().insertOrUpdate(note)
-                }
+                } ?: kotlin.run { Log.d("test", "No db") }
             }
         }
 
