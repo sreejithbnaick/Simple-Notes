@@ -22,6 +22,8 @@
             android:id="@+id/et_passphrase"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:gravity="center"
             android:inputType="textPassword"
             android:textColor="@color/color_primary" />

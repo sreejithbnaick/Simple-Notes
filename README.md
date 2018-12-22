@@ -1,4 +1,4 @@
-# Simple Notes - Secured using Sqlcipher
+# Secured Simple Notes - (Still under development)
 
 <img alt="Logo" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="80">
 
@@ -6,6 +6,7 @@ Modified version of SimpleMobileTools/Simple-Notes with Database Encryption usin
 
 (With help of https://github.com/commonsguy/cwac-saferoom - CWAC-SafeRoom: A Room<->SQLCipher for Android Bridge )
 
+Not completely ready yet. Need to handle widgets and fingerprint support.
 
 License
 -------
