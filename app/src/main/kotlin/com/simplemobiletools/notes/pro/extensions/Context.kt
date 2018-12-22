@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.widget.EditText
 import com.simplemobiletools.notes.pro.R
 import com.simplemobiletools.notes.pro.databases.NotesDatabase
 import com.simplemobiletools.notes.pro.helpers.*
@@ -12,9 +13,13 @@ import com.simplemobiletools.notes.pro.interfaces.WidgetsDao
 
 val Context.config: Config get() = Config.newInstance(applicationContext)
 
-val Context.notesDB: NotesDao get() = NotesDatabase.getInstance(applicationContext).NotesDao()
+val Context.notesDB: NotesDao get() = NotesDatabase.getInstance().NotesDao()
 
-val Context.widgetsDB: WidgetsDao get() = NotesDatabase.getInstance(applicationContext).WidgetsDao()
+val Context.widgetsDB: WidgetsDao get() = NotesDatabase.getInstance().WidgetsDao()
+
+val Context.isDBInitialized: Boolean get() = NotesDatabase.isInitialized()
+
+fun Context.initializeDB(passphraseField: EditText) = NotesDatabase.createInstance(applicationContext, passphraseField)
 
 fun Context.getTextSize() = when (config.fontSize) {
     FONT_SIZE_SMALL -> resources.getDimension(R.dimen.smaller_text_size)

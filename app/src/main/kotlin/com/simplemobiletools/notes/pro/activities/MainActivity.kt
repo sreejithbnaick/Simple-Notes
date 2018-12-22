@@ -1,5 +1,6 @@
 package com.simplemobiletools.notes.pro.activities
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -719,6 +720,12 @@ class MainActivity : SimpleActivity() {
             add(Release(51, R.string.release_51))
             add(Release(57, R.string.release_57))
             checkWhatsNew(this, BuildConfig.VERSION_CODE)
+        }
+    }
+
+    companion object {
+        fun startActivity(context: Context) {
+            context.startActivity(Intent(context, MainActivity::class.java))
         }
     }
 }

@@ -1,8 +1,12 @@
 package com.simplemobiletools.notes.pro.activities
 
+import android.annotation.SuppressLint
+import android.os.Bundle
 import com.simplemobiletools.commons.activities.BaseSimpleActivity
 import com.simplemobiletools.notes.pro.R
+import com.simplemobiletools.notes.pro.extensions.isDBInitialized
 
+@SuppressLint("Registered")
 open class SimpleActivity : BaseSimpleActivity() {
     override fun getAppIconIDs() = arrayListOf(
             R.mipmap.ic_launcher_red,
@@ -27,4 +31,13 @@ open class SimpleActivity : BaseSimpleActivity() {
     )
 
     override fun getAppLauncherName() = getString(R.string.app_launcher_name)
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        if (!isDBInitialized) {
+            PassphraseActivity.startActivity(this)
+            finishAffinity()
+            return
+        }
+    }
 }

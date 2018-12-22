@@ -72,6 +72,10 @@
         This app is just one piece of a bigger series of apps. You can find the rest of them at https://www.simplemobiletools.com
     </string>
 
+    <string name="enter_passphrase">Enter Passphrase</string>
+    <string name="submit">submit</string>
+    <string name="wrong_passphrase">Wrong Passphrase</string>
+
     <!--
         Haven't found some strings? There's more at
         https://github.com/SimpleMobileTools/Simple-Commons/tree/master/commons/src/main/res

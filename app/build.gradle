@@ -3,10 +3,6 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
-def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-
 android {
     compileSdkVersion 28
     buildToolsVersion "28.0.3"
@@ -22,6 +18,10 @@ android {
 
     signingConfigs {
         release {
+            def keystorePropertiesFile = rootProject.file("keystore.properties")
+            def keystoreProperties = new Properties()
+            keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
             keyAlias keystoreProperties['keyAlias']
             keyPassword keystoreProperties['keyPassword']
             storeFile file(keystoreProperties['storeFile'])
@@ -53,7 +53,10 @@ android {
 dependencies {
     implementation 'com.simplemobiletools:commons:5.5.18'
 
+    implementation 'androidx.appcompat:appcompat:1.0.0-beta01'
+    implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
     kapt 'androidx.room:room-compiler:2.0.0'
     implementation 'androidx.room:room-runtime:2.0.0'
+    implementation "com.commonsware.cwac:saferoom.x:0.5.1"
     annotationProcessor 'androidx.room:room-compiler:2.0.0'
 }
