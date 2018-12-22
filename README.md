@@ -3,6 +3,7 @@
 <img alt="Logo" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" width="80">
 
 Modified version of SimpleMobileTools/Simple-Notes with Database Encryption using Sqlcipher.
+
 (With help of https://github.com/commonsguy/cwac-saferoom - CWAC-SafeRoom: A Room<->SQLCipher for Android Bridge )
 
 A simple textfield for adding quick notes.
